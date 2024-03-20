@@ -1,60 +1,55 @@
-alert("Presupuesta tu nueva casa");
+const productosCompradosMes = [];
 
-function calcular(){
-    let suma = (montoCasa + montoHabitaciones + montoPileta)
-    alert("Usted necesita un presupuesto de $" + suma)
+let productoComprado;
+let productoPrecio;
+let presupuesto;
+
+alert("Presupuesta tu mes aqui")
+
+do{
+
+    presupuesto = parseInt(prompt("Ingrese su presupuesto del mes"))
+
+}while(isNaN(presupuesto))
+
+do{
+    productoComprado = prompt("Ingrese el nombre del producto. Ingrese 'SALIR' si no quiere agregar mas productos")
+
+    if (productoComprado !== "SALIR") {
+
+        do{
+            
+        productoPrecio = parseInt(prompt("Ingresa el monto del producto"));
+    
+        }while(isNaN(productoPrecio))
+    
+        let productosIngresados = {
+            producto: productoComprado,
+            precio: productoPrecio
+        }
+
+        productosCompradosMes.push(productosIngresados);
+        console.log(productosCompradosMes);
+    }else if(isNaN(productoComprado)){
+        
+    }
+
+}while(productoComprado !== "SALIR")
+
+function calcularGastosMes() {
+    return productosCompradosMes.reduce((acc, total) => acc + total.precio, 0)
 }
 
-    let zonaCasa = 0;
+alert("Su gasto total en el mes es de: $" + calcularGastosMes())
 
-    do{
-        
-    zonaCasa = parseInt(prompt("Donde quiere vivir? eliga una de las dos ocpciones (1 o 2) \n1. Zona Rural \n2. Zona urbana"))
-    
-        
-    }while(zonaCasa != 1 && zonaCasa !=2)
+function calcularDineroRestante() {
+    let resta = presupuesto - calcularGastosMes();
 
-    if (zonaCasa == 1){
-        montoCasa = 7000;
-        alert("Su monto es de " + montoCasa);
-    }else if (zonaCasa == 2){
-        montoCasa = 9000;
-        alert("Su monto es de " + montoCasa);
-    }
-
-    let habitaciones = 0;
-    
-    do{
-        habitaciones = parseInt(prompt("Cuantas habitaciones quiere? (Puede elegir hasta 6 habitaciones)"))
-
-        
-    }while ((habitaciones < 1 || habitaciones >6) || isNaN(habitaciones))
-
-    if (habitaciones <= 2){
-        montoHabitaciones = 1000;
-        alert("Su monto es de " + montoHabitaciones)
-    }else if (habitaciones <= 4){
-        montoHabitaciones = 3000;
-        alert("Su monto es de " + montoHabitaciones)
-    }else if(habitaciones <= 6){
-        montoHabitaciones = 5000;
-        alert("Su monto es de " + montoHabitaciones)
-    }
-
-    let pileta = 0;
-
-    do{
-        pileta = prompt("Con Pileta SI o NO")
-        pileta = pileta.toLowerCase()
-        
-    }while(pileta != "si" && pileta != "no")
-
-    if(pileta == "si"){
-        montoPileta = 5000;
-        alert("Su monto es de " + montoPileta)
-        calcular()
+    if(presupuesto < calcularGastosMes()){
+        alert("Los productos que elegio superan su presupuesto, tiene una perdida de " + resta + "$")
     }else{
-        montoPileta = 0;
-        alert("Su monto es de " + montoPileta)
-        calcular()
+        alert("La cantidad de dinero que le sobra es de $" + resta)
     }
+}
+
+calcularDineroRestante()
